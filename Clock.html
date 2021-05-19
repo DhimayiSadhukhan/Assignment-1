@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Clock</title>
+</head>
+
+<body onload="showtime()">
+  <h4>Current time <span id="time"></span></h4>
+  <h2>Future Time to compare with</h2>
+  <h4>After inputting the value take mouse out of the input box</h4>
+  <div id="hms">
+    hour<input id="hour"></input> minute<input id="min"></input> seconds<input id="sec"></input>
+  </div>
+  <script>
+    function showtime() {
+      var d = new Date();
+      var h = d.getHours();
+      var m = d.getMinutes();
+      var s = d.getSeconds();
+      var t, inputHour, inputMin, inputSec;
+      document.getElementById("time").innerHTML = d;
+      inputHour = parseInt(document.getElementById("hour").value);
+      inputMin = parseInt(document.getElementById("min").value);
+      inputSec = parseInt(document.getElementById("sec").value);
+      document.getElementById("hms").onmouseleave = function() {
+        if (inputHour < h) {
+          stop(t);
+          return;
+        }
+        if (inputHour === h && inputMin < m) {
+          stop(t);
+          return;
+        }
+        if (inputHour === h && inputMin === m && inputSec < s) {
+          stop(t);
+          return;
+        }
+      }
+      if (inputHour === h && inputMin === m && inputSec === s) {
+        stop(t);
+        return;
+      }
+      t = setTimeout(showtime, 500);
+    }
+
+    function stop(t) {
+      document.getElementById("time").style.color = "red";
+      clearTimeout(t);
+    }
+  </script>
+</body>
+
+</html>
